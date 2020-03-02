@@ -19,14 +19,16 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->text('description');
             $table->integer('price');
-            $table->integer('categoryId')->unsigned();
+            $table->unsignedBigInteger('category_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
 
-        Schema::table('products', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->foreign('categoryId')->references('id')->on('categories');
-        });
+        // Schema::table('products', function ($table) {
+        //     // $table->integer('category_id')->unsigned();
+        //     $table->foreign('category_id')->references('id')->on('categories');
+        // });
     }
 
     /**
