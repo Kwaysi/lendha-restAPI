@@ -10,7 +10,7 @@ class Categories extends Model {
   ];
 
   public function products() {
-    return $this->hasMany('App/Products', 'products');
+    return $this->hasMany('App/Product', 'products');
   }
 }
 
