@@ -19,7 +19,13 @@ class CreateProductsTable extends Migration
             $table->string('image');
             $table->text('description');
             $table->integer('price');
+            $table->integer('categoryId')->unsigned();
             $table->timestamps();
+        });
+
+        Schema::table('products', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->foreign('categoryId')->references('id')->on('categories');
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Categories;
 
 class CategoriesController extends Controller
 {
@@ -14,6 +15,8 @@ class CategoriesController extends Controller
     public function index()
     {
         //
+        $cat = Categories::all();
+        return response()->json($cat);
     }
 
     /**
@@ -21,9 +24,16 @@ class CategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $cat = new Categories([
+            'name' => $request->get('name'),
+        ]);
+
+        $cat->save();
+
+        return response()->json('Category Added Successfully.');
     }
 
     /**
@@ -69,6 +79,14 @@ class CategoriesController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $cat = Categories::find($request->get('id'));
+
+        $cat->name = $request->get('name');
+
+        $cat->save();
+
+        return response()->json('Category Updated Successfully.');
     }
 
     /**
@@ -80,5 +98,9 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
         //
+        $cat = Categories::find($id);
+        $cat->delete();
+
+        return response()->json('Category Deleted Successfully.');
     }
 }

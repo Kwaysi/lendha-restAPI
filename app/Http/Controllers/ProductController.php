@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\Categories;
 
 class ProductController extends Controller
 {
@@ -15,6 +16,15 @@ class ProductController extends Controller
     public function index()
     {
         //
+        $products = Product::all();
+        return response()->json($products);
+    }
+    
+    public function getProductsByCategory ($id)
+    {
+        # code...
+        $products = Categories::find(1)->products;
+        return response()->json($products);
     }
 
     /**
@@ -31,7 +41,7 @@ class ProductController extends Controller
             'image' => $request->get('img'),
             'description' => $request->get('desc'),
             'price' => $request->get('price'),
-            'cateoryId' => $request->get('cid')
+            'category_id' => $request->get('cid')
         ]);
 
         $product->save();
@@ -79,9 +89,19 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+
+        $product = Product::find($request->get('id'));
+
+        $product->name = $request->get('name');
+        $product->image = $request->get('img');
+        $product->description = $request->get('desc');
+        $product->price = $request->get('price');
+        $product->save();
+
+        return response()->json('Product Updated Successfully.');
     }
 
     /**
@@ -93,5 +113,10 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+        $product = Product::find($id);
+
+        $product->delete();
+
+        return response()->json('Product Deleted Successfully.');
     }
 }
