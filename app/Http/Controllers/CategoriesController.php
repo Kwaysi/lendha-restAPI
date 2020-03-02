@@ -36,6 +36,13 @@ class CategoriesController extends Controller
         return response()->json('Category Added Successfully.');
     }
 
+    public function getProductsByCategory($id)
+    {
+        # code...
+        $products = Categories::find($id)->products;
+        return response()->json($products);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -80,7 +87,7 @@ class CategoriesController extends Controller
     {
         //
 
-        $cat = Categories::find($request->get('id'));
+        $cat = Categories::find($id);
 
         $cat->name = $request->get('name');
 

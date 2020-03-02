@@ -19,13 +19,6 @@ class ProductController extends Controller
         $products = Product::all();
         return response()->json($products);
     }
-    
-    public function getProductsByCategory ($id)
-    {
-        # code...
-        $products = Categories::find(1)->products;
-        return response()->json($products);
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -89,11 +82,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         //
 
-        $product = Product::find($request->get('id'));
+        $product = Product::find($id);
 
         $product->name = $request->get('name');
         $product->image = $request->get('img');

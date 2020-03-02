@@ -14,20 +14,18 @@ use Illuminate\Http\Request;
 */
 
 // User access control routes
-Route::post('register', 'UserController@register');
-Route::post('login', 'UserController@authenticate');
+Route::post('register', 'userController@register');
+Route::post('login', 'userController@authenticate');
+    
+Route::group(['middleware' => ['jwt.verify']], function () {
+    Route::get('/category', 'CategoriesController@index');
+    Route::get('/category/{id}', 'CategoriesController@getProductsByCategory');
+    Route::post('/category/create', 'CategoriesController@create');
+    Route::post('/category/update/{id}', 'CategoriesController@update');
+    Route::delete('/category/delete/{id}', 'CategoriesController@destroy');
 
-Route::post('create', 'ProductController@create');
-    Route::get('/', 'ProductController@index');
-    Route::get('/{id}', 'ProductController@getProductsByCategory');
-    Route::post('update', 'ProductController@update');
-    Route::delete('delete/{id}', 'ProductController@destroy');
-
-Route::middleware('auth:api')->get('/products', function (Request $request) {
-    return $request->user();
-    // Product routes
-    Route::post('create', 'ProductController@create');
-    Route::get('/', 'ProductController@index');
-    Route::post('update', 'ProductController@update');
-    Route::delete('delete', 'ProductController@destroy');
+    Route::get('/product', 'ProductController@index');
+    Route::post('/product/create', 'ProductController@create');
+    Route::post('/product/update/{id}', 'ProductController@update');
+    Route::delete('/product/delete/{id}', 'ProductController@destroy');
 });
